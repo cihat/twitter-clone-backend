@@ -31,7 +31,7 @@ exports.getUser = async (req, res) => {
   else res.render('user', { user })
 }
 
-exports.postTweet = async (req, res) => {
+exports.createTweet = async (req, res) => {
   const { userId } = req.params
   const { body } = req.body
 
