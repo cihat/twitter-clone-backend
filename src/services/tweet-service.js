@@ -3,40 +3,71 @@ const Tweet = require('../models/tweet')
 const userService = require('./user-service')
 
 class TweetService extends BaseService {
-  async tweet(userId, body) {
+  async findAll() {
+    return this.load()
+  }
+
+  async loadWithLimit(limit) {
+    return this.loadLimit(limit)
+  }
+
+  async likeTweet(tweetId, userId) {
+    const likesId = []
+    const tweet = await this.find(tweetId)
     const user = await userService.find(userId)
-    const tweet = await this.insert({ user, body })
-    user.tweets.unshift(tweet)
-    await user.save()
+    if (!tweet) return null
+
+    const { likes } = tweet
+
+    likes.map((like) => likesId.push(like._id.toString()))
+
+    if (!likesId.includes(userId.toString())) {
+      tweet.likes.push(userId)
+      user.likedTweets.push(tweetId)
+
+      await tweet.save()
+      await user.save()
+    } else {
+      console.log('Tweet already liked')
+    }
 
     return tweet
   }
 
-  async like(userId, likeTweetId) {
-    const tweet = await this.find(likeTweetId)
-    const user = await userService.find(userId)
+  // async tweet(userId, body) {
+  //   const user = await userService.find(userId)
+  //   const tweet = await this.insert({ user, body })
+  //   user.tweets.unshift(tweet)
+  //   await user.save()
 
-    user.likedTweets.push(tweet)
-    tweet.likes.push(user)
+  //   return tweet
+  // }
 
-    await tweet.save()
-    await user.save()
+  // async like(userId, likeTweetId) {
+  //   const tweet = await this.find(likeTweetId)
+  //   const user = await userService.find(userId)
 
-    return user
-  }
+  //   user.likedTweets.push(tweet)
+  //   tweet.likes.push(user)
 
-  async retweet(userId, retweetId) {
-    const user = await userService.find(userId)
-    const tweetToRetweet = await this.find(retweetId)
+  //   await tweet.save()
+  //   await user.save()
 
-    user.retweets.push(tweetToRetweet)
-    tweetToRetweet.retweets.push(user.handle)
+  //   return user
+  // }
 
-    await user.save()
-    await tweetToRetweet.save()
+  // async retweet(userId, retweetId) {
+  //   const user = await userService.find(userId)
+  //   const tweetToRetweet = await this.find(retweetId)
 
-    return user
-  }
+  //   user.retweets.push(tweetToRetweet)
+  //   tweetToRetweet.retweets.push(user.handle)
+
+  //   await user.save()
+  //   await tweetToRetweet.save()
+
+  //   return user
+  // }
 }
 
 module.exports = new TweetService(Tweet)
