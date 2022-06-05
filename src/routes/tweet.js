@@ -1,8 +1,14 @@
-const usersController = require('../controllers/tweet.js')
+const tweetController = require('../controllers/tweet.js')
 
 const router = require('express').Router()
 
-router.post('/', usersController.createTweet)
+router.post('/', tweetController.createTweet)
+
+router.get('/', tweetController.getTweets)
+
+router.get('/:tweetId', tweetController.getTweet)
+
+router.patch('/:tweetId/like', tweetController.likeTweet)
 
 // router.get('/', usersController.getUsers)
 
