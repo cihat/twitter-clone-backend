@@ -53,7 +53,22 @@ app.use(express.static(__dirname + '/public'))
 app.use(
   cors({
     origin: true,
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
+    preflightContinue: false,
+    options: {
+      maxAge: 24 * 60 * 60 * 1000,
+      credentials: true,
+      origin: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      exposedHeaders: ['Content-Type', 'Authorization'],
+      optionsSuccessStatus: 200,
+      preflightContinue: false
+    }
   })
 )
 
