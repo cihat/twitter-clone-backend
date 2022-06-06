@@ -60,7 +60,12 @@ const whiteList = [
   'http://localhost:8080',
   'https://full-stack-twitter-clone-frontend.vercel.app/',
   'https://full-stack-twitter-clone-frontend-git-master-cihat.vercel.app/',
-  'https://full-stack-twitter-clone-frontend-cihat.vercel.app/'
+  'https://full-stack-twitter-clone-frontend-cihat.vercel.app/',
+  'https://full-stack-twitter-clone-back.herokuapp.com/',
+  'https://full-stack-twitter-clone-back.herokuapp.com/api',
+  'https://full-stack-twitter-clone-back.herokuapp.com/api/auth',
+  'https://full-stack-twitter-clone-back.herokuapp.com/api/tweets',
+  'https://full-stack-twitter-clone-back.herokuapp.com/api/users'
 ]
 
 const corsOptions = {
@@ -71,19 +76,8 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'))
     }
   },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  exposedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200,
-  preflightContinue: false,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-    'Access-Control-Allow-Headers':
-      'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-  }
+  // origin: process.env.NODE_ENV === 'production' ? 'https://full-stack-twitter-clone-frontend.vercel.app/' : true,
+  credentials: true
 }
 app.use(cors(corsOptions))
 
