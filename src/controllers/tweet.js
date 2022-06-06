@@ -73,7 +73,6 @@ exports.getTweet = async (req, res, next) => {
 exports.likeTweet = async (req, res, next) => {
   try {
     const tweet = await tweetService.likeTweet(req.params.tweetId, req.user._id)
-
     res.status(200).send(tweet)
   } catch (error) {
     return next(error)
